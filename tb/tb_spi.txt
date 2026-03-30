@@ -1,0 +1,46 @@
+module tb_spi;
+
+reg clk = 0;
+reg rst = 1;
+reg start = 0;
+
+reg [7:0] master_data = 8'b10101010; // AA
+
+wire MOSI, MISO, SCLK, SS;
+wire [7:0] master_out;
+wire done;
+wire [7:0] slave_out;
+
+spi_master master (
+    .clk(clk),
+    .rst(rst),
+    .start(start),
+    .data_in(master_data),
+    .MISO(MISO),
+    .MOSI(MOSI),
+    .SCLK(SCLK),
+    .SS(SS),
+    .data_out(master_out),
+    .done(done)
+);
+
+spi_slave slave (
+    .SCLK(SCLK),
+    .SS(SS),
+    .MOSI(MOSI),
+    .MISO(MISO),
+    .data_in(8'b11001100), // CC
+    .data_out(slave_out)
+);
+
+always #5 clk = ~clk;
+
+initial begin
+    #10 rst = 0;
+    #10 start = 1;
+    #10 start = 0;
+
+    #500 $finish;
+end
+
+endmodule
