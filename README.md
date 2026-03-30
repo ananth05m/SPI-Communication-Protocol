@@ -66,7 +66,7 @@ It uses four main signals:
 
 ### SPI Block Diagram
 
-![Diagram](docs/spi_block_diagram.png)
+![Diagram](docs/SPI_block_diagram.png)
 
 ---
 
